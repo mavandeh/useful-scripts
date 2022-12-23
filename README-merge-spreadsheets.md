@@ -17,7 +17,7 @@ Throughout the development of this script, the following prompts were provided b
 - Modify the script to ignore the first cell of the first line when checking for column labels.
 - Modify the script to treat any cell that contains "Unnamed: " followed by any number of numbers as if it were not a column label.
 
-**Note:** After this point the program became long enough that the output was truncated. I started asking specific questions: "Write me a line to <do this>." See commit history for further changes.
+**Note:** After this point the program became long enough that the output was truncated. I started asking specific questions: "Write me a line to *do this*." See commit history for further changes.
 
 ## Usage
 
