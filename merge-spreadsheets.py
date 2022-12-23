@@ -29,6 +29,10 @@ def read_files(directory):
                     df = pd.read_csv(file)
                 else:
                     df = None
+                # Check if the first line of the dataframe looks like column labels
+                if df is not None and all(df.iloc[0].str.contains(r'[A-Za-z]', regex=True)):
+                    # Remove the first line if it looks like column labels
+                    df = df.iloc[1:]
                 # Add a new column to the dataframe with the filename (without the directory path) and line number
                 df['Source'] = f'{os.path.basename(file)} - Line {df.index+1}'
                 df_list.append(df)

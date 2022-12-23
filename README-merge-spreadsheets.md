@@ -15,6 +15,7 @@ Throughout the development of this script, the user provided the following promp
 9. List for me again all of the prompts I've provided from working on the python script to this point.
 10. Modify the script to remove handling .xlsx files due to errors thrown by the openpyxl library.
 11. Modify the script to refactor the code into two functions: one that reads all .xls and .csv files in a specified directory into a single pandas dataframe, and another that saves the specified dataframe to a .csv file in a specified directory. The main script should prompt the user for the directory path and then use these two functions to read the files and save the merged dataframe.
+12. Modify the script to remove the first line of the dataframe when it is imported if it does not contain something that looks like column labels. Column labels are typically strings that contain letters and are used to label the columns of a dataframe. To determine if the first line of the dataframe looks like column labels, the script should check if all elements in the first line are strings that contain letters. If all elements in the first line are strings that contain letters, then the first line should be removed from the dataframe.
 
 ## Usage
 To use the script, run the following command:
