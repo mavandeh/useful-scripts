@@ -14,6 +14,7 @@ Throughout the development of this script, the user provided the following promp
 8. Modify the script to ignore files with the same name as the output spreadsheet and force the last line to overwrite the file with the same name.
 9. List for me again all of the prompts I've provided from working on the python script to this point.
 10. Modify the script to remove handling .xlsx files due to errors thrown by the openpyxl library.
+11. Modify the script to refactor the code into two functions: one that reads all .xls and .csv files in a specified directory into a single pandas dataframe, and another that saves the specified dataframe to a .csv file in a specified directory. The main script should prompt the user for the directory path and then use these two functions to read the files and save the merged dataframe.
 
 ## Usage
 To use the script, run the following command:
