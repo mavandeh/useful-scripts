@@ -18,29 +18,35 @@ def read_files(directory):
     for file in filenames:
         # Skip directories
         if not os.path.isdir(file):
-            # Skip files with the same name as the output spreadsheet
-            if os.path.basename(file) != 'merged-spreadsheet.csv':
-                # Split the file extension from the filename
-                filename, file_extension = os.path.splitext(file)
-                # Check the file extension and read the file into a dataframe
-                if file_extension == '.xls':
-                    df = pd.read_excel(file, engine='xlrd')
-                elif file_extension == '.csv':
-                    df = pd.read_csv(file)
-                else:
-                    df = None
-                # Check if the first line of the dataframe looks like column labels
-                if df is not None and all(df.iloc[0].str.contains(r'[A-Za-z]', regex=True)):
-                    # Remove the first line if it looks like column labels
+            # Split the file extension from the filename
+            filename, file_extension = os.path.splitext(file)
+            # Check the file extension and read the file into a dataframe
+            if file_extension == '.xls':
+                df = pd.read_excel(file, engine='xlrd')
+            elif file_extension == '.csv':
+                df = pd.read_csv(file)
+            else:
+                df = None
+            # Check if the dataframe has any column labels
+            if df is not None and df.columns.any():
+                # Check if the first line of the dataframe looks like column labels, ignoring the first cell and cells that contain "Unnamed: " followed by any number of numbers
+                if not all(df.iloc[0][1:].str.contains(r'^(?!Unnamed: \d+$)[A-Za-z]', regex=True)):
+                    # Remove the first line if it does not look like column labels
                     df = df.iloc[1:]
-                # Add a new column to the dataframe with the filename (without the directory path) and line number
-                df['Source'] = f'{os.path.basename(file)} - Line {df.index+1}'
-                df_list.append(df)
+            else:
+                # If the dataframe has no column labels, add a default column label
+                df.columns = ['Column']
+            # Add a new column to the dataframe with the filename (without the directory path) and line number
+            df['Source'] = f'{os.path.basename(file)} - Line {df.index+1}'
+            df_list.append(df)
 
     # Merge all the dataframes into a single dataframe
     merged_df = pd.concat(df_list)
 
     return merged_df
+
+
+
 
 def save_file(df, directory):
     """

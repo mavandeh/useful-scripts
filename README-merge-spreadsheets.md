@@ -1,39 +1,45 @@
-# Merging Spreadsheets and .csv Files
-This script merges all .xls and .csv files in a specified directory into a single .csv file.
+# Merging Spreadsheets and .csv Files with Pandas
 
-## Collaboration
-Throughout the development of this script, the user provided the following prompts:
+This script is designed to merge all spreadsheets and .csv files in a specified directory into a single dataframe using the [pandas](https://pandas.pydata.org/) library.
 
-1. Write a python script using pandas library which merges all spreadsheets and .csv files in the current directory.
-2. Modify the script to take a directory input from the user, rather than the current directory.
-3. Modify the script to output the merged_df to a new file in the user selected directory, filename "merged-spreadsheet.xlsx".
-4. Modify the script to add a column at the end that will contain the filename and the line number from which it was copied.
-5. Modify the script to ignore directories when reading files into the dataframe.
-6. Modify the script to ignore files with the same name as the spreadsheet output in the last line.
-7. Modify the script to output the merged dataframe as a .csv file.
-8. Modify the script to ignore files with the same name as the output spreadsheet and force the last line to overwrite the file with the same name.
-9. List for me again all of the prompts I've provided from working on the python script to this point.
-10. Modify the script to remove handling .xlsx files due to errors thrown by the openpyxl library.
-11. Modify the script to refactor the code into two functions: one that reads all .xls and .csv files in a specified directory into a single pandas dataframe, and another that saves the specified dataframe to a .csv file in a specified directory. The main script should prompt the user for the directory path and then use these two functions to read the files and save the merged dataframe.
-12. Modify the script to remove the first line of the dataframe when it is imported if it does not contain something that looks like column labels. Column labels are typically strings that contain letters and are used to label the columns of a dataframe. To determine if the first line of the dataframe looks like column labels, the script should check if all elements in the first line are strings that contain letters. If all elements in the first line are strings that contain letters, then the first line should be removed from the dataframe.
+## Collaboration Details
+
+Throughout the development of this script, the following prompts were provided by the user:
+
+- Write a python script using pandas library which merges all spreadsheets and .csv files in the current directory.
+- Modify the script to take a directory input from the user, rather than the current directory.
+- Modify the script to output the merged dataframe to a new file in the user-selected directory, with the filename "merged-spreadsheet.xlsx".
+- Modify the script to add a column at the end that will contain the filename and the line number from which it was copied.
+- Modify the script to only include the filename, but not the whole directory path, in the new "Source" column.
+- Modify the script to ignore directories when reading files into the dataframe.
+- Modify the script to ignore files with the same name as the output spreadsheet and force the last line to overwrite the file with the same name.
+- Modify the script to remove the first line of the dataframe when it imports it if it does not contain something that looks like column labels.
+- Modify the script to ignore the first cell of the first line when checking for column labels.
+- Modify the script to treat any cell that contains "Unnamed: " followed by any number of numbers as if it were not a column label.
 
 ## Usage
-To use the script, run the following command:
 
-```
+To use this script, run the following command:
+
+```bash
 python merge_spreadsheets.py
 ```
 
-The script will prompt the user for the directory path. Enter the path to the directory containing the .xls and .csv files to be merged. The script will merge all the files in the specified directory into a single .csv file, adding a new column with the filename and line number of each row. The merged file will be saved as "merged-spreadsheet.csv" in the specified directory, overwriting the file if it already exists.
+The script will prompt the user to enter a directory path. Enter the path of the directory containing the spreadsheets and .csv files that you want to merge. The merged dataframe will be saved as a .csv file with the filename "merged-spreadsheet.csv" in the specified directory.
 
-## Requirements
-The script requires the following libraries:
+## Dependencies
 
-* pandas
-* glob
-* os
+This script requires the following libraries:
+
+- [pandas](https://pandas.pydata.org/)
+- [glob](https://docs.python.org/3/library/glob.html)
+- [os](https://docs.python.org/3/library/os.html)
 
 ## Notes
-* The script ignores directories when reading files into the dataframe.
-* The script ignores files with the same name as the output spreadsheet.
-* The script handles .xls and .csv files only. It does not handle .xlsx files.
+
+- The script will only merge .xls and .csv files. Other file types will be ignored.
+- The script will ignore directories when reading files into the dataframe.
+- The script will ignore files with the same name as the output .csv file and force the last line to overwrite the file with the same name.
+- The script will remove the first line of the dataframe when it imports it if it does not contain something that looks like column labels. If the dataframe has no column labels, a default column label will be added.
+- The script will treat any cell that contains "Unnamed: " followed by any number of numbers as if it were not a column label when checking for column labels.
+- The merged dataframe will include a new "Source" column that contains the filename (without the directory path) and line number of each row.
