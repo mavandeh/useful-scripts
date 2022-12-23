@@ -1,4 +1,4 @@
-# Written with assistance from ChatGPT
+# merge-spreadsheets.py: Written with assistance from ChatGPT
 
 import glob
 import pandas as pd
@@ -27,15 +27,22 @@ def read_files(directory):
                 df = pd.read_csv(file)
             else:
                 df = None
-            # Check if the dataframe has any column labels
-            if df is not None and df.columns.any():
-                # Check if the first line of the dataframe looks like column labels, ignoring the first cell and cells that contain "Unnamed: " followed by any number of numbers
-                if not all(df.iloc[0][1:].str.contains(r'^(?!Unnamed: \d+$)[A-Za-z]', regex=True)):
-                    # Remove the first line if it does not look like column labels
-                    df = df.iloc[1:]
-            else:
-                # If the dataframe has no column labels, add a default column label
-                df.columns = ['Column']
+            #print(f'Original dataframe: {df}')
+
+            # Check if any of the columns of the dataframe contain 'Unnamed'
+            if df.columns.str.contains('Unnamed').any():
+                # Reread the file with header=0
+                if file_extension == '.xls':
+                    df = pd.read_excel(file, engine='xlrd', header=1)
+                elif file_extension == '.csv':
+                    df = pd.read_csv(file, header=1)
+                else:
+                    df = None
+                #print(f'Dataframe with Unnamed columns: {df}')
+            
+            # Check if the first cell has data and the rest of the cells are blank, if so delete row
+            df = df[df.iloc[:, 1:].notnull().any(axis=1)]
+
             # Add a new column to the dataframe with the filename (without the directory path) and line number
             df['Source'] = f'{os.path.basename(file)} - Line {df.index+1}'
             df_list.append(df)
@@ -44,9 +51,6 @@ def read_files(directory):
     merged_df = pd.concat(df_list)
 
     return merged_df
-
-
-
 
 def save_file(df, directory):
     """
