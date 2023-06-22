@@ -23,6 +23,8 @@ def read_files(directory):
             # Check the file extension and read the file into a dataframe
             if file_extension == '.xls':
                 df = pd.read_excel(file, engine='xlrd')
+            elif file_extension == '.xlsx':
+                df = pd.read_excel(file)
             elif file_extension == '.csv':
                 df = pd.read_csv(file)
             else:
@@ -34,6 +36,8 @@ def read_files(directory):
                 # Reread the file with header=0
                 if file_extension == '.xls':
                     df = pd.read_excel(file, engine='xlrd', header=1)
+                elif file_extension == '.xlsx':
+                    df = pd.read_excel(file, header=1)
                 elif file_extension == '.csv':
                     df = pd.read_csv(file, header=1)
                 else:
