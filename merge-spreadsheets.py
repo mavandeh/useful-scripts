@@ -9,7 +9,7 @@ def read_files(directory):
     Reads all .xls and .csv files in the specified directory into a single pandas dataframe.
     """
     # Find all .xls and .csv files in the specified directory
-    filenames = glob.glob(f'{directory}/*.xls') + glob.glob(f'{directory}/*.csv')
+    filenames = glob.glob(f'{directory}/*.xls') + glob.glob(f'{directory}/*.csv') + glob.glob(f'{directory}/*.xlsx')
 
     # Create an empty list to store the dataframes
     df_list = []
@@ -20,11 +20,13 @@ def read_files(directory):
         if not os.path.isdir(file):
             # Split the file extension from the filename
             filename, file_extension = os.path.splitext(file)
+
             # Check the file extension and read the file into a dataframe
             if file_extension == '.xls':
                 df = pd.read_excel(file, engine='xlrd')
             elif file_extension == '.xlsx':
                 df = pd.read_excel(file)
+                print("found .xlsx")
             elif file_extension == '.csv':
                 df = pd.read_csv(file)
             else:
